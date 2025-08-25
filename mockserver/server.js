@@ -28,7 +28,7 @@ const sendFileContent = (filename) => (req, res) => {
   }
 };
 
-app.put('/dev/xer_upload', sendFileContent('upload'));
+app.put('/dev/xer_upload', sendFileContent('xer_upload'));
 app.put('/dev/upload', sendFileContent('upload'));
 
 app.listen(port, () => {
