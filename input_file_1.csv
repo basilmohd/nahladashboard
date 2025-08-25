@@ -1,0 +1,22 @@
+Category,Field Name,Value
+Project Details,Project Start Date,01-03-2011 7:00
+Project Details,Project End Date,27-08-2011 17:00
+Budget Details,Total Budget (Labour),7500
+Budget Details,Total Budget (Material),7543
+Budget Details,Actual Cost (Labour),3000
+Budget Details,Actual Cost (Material),3500
+Progress Details,Planned Progress (Engineering),20
+Progress Details,Planned Progress (Procurement),35
+Progress Details,Planned Progress (Construction),5
+Progress Details,Planned Progress (Adhoc),0
+Progress Details,Actual Progress (Engineering),15
+Progress Details,Actual Progress (Procurement),20
+Progress Details,Actual Progress (Construction),10
+Progress Details,Actual Progress (Adhoc),0
+Project Information,Company Name and Logo,Example Co.
+Project Information,Project Name,Infrastructure Development
+Project Information,Project Manager (Optional),John Doe
+Descriptions,Description Written,(To be generated dynamically)
+Project Information,Project Background,Historical or contextual details about the project
+Project Achievements,Achievements / Milestones,Milestone 1: Feasibility Study Completed; Milestone 2: Procurement Started
+Project Challenges,Upcoming Challenges,Challenge 1: Resource constraints; Challenge 2: Regulatory approvals

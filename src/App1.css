@@ -1,0 +1,27 @@
+.app-container {
+  display: flex;
+  width: 100%;
+}
+
+.sidebar {
+  width: 200px;
+  transition: width 0.3s ease;
+}
+
+.content-area {
+  flex-grow: 1;
+  margin-left: 200px;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 60px; /* or 0 to fully hide */
+  }
+
+  .content-area {
+    margin-left: 60px; /* or 0 to fully overlap */
+  }
+}

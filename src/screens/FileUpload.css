@@ -1,0 +1,49 @@
+.file-upload-container {
+  width: 100%;
+  padding: 10px;
+}
+
+.tabs-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  background-color: #eeeeee;
+  border-radius: 7px;
+  height: 60px;
+  width: 90%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3px;
+  border-radius: 7px;
+  font-size: 18px;
+  background-color: transparent;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.tab.active {
+  background-color: white;
+}
+
+@media (max-width: 600px) {
+  .tabs-container {
+    flex-direction: column;
+    height: auto;
+    padding: 10px 0;
+  }
+
+  .tab {
+    width: 90%;
+    margin: 5px auto;
+    height: 50px;
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,54 @@
+/* Styling the input field */
+.custom-datepicker {
+    border: 2px solid #929292;
+    border-radius: 7px;
+    padding: 10px;
+    height: 40px;
+    width: 90%;
+    margin-top: 10px;
+  }
+
+
+  .custom-tooltip {
+    background-color: #4e4d4d;  
+    color: #fff;            
+    padding: 15px;          
+    border-radius: 5px;      
+    font-size: 16px;        
+    max-width: 600px;        
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+    line-height: 23px;
+  }
+  
+  .custom-tooltip::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent; 
+  }
+
+  .custom-input {
+    border: 2px solid #929292;
+    width: "100%";
+    border-radius: 7px;
+    height: 40px;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 16px;
+    width: 96%;
+  }
+
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+
+
+
+
+  
+  
+
+  
