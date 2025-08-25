@@ -1,0 +1,65 @@
+{
+  "status": "success",
+  "message": "File processed and output retrieved.",
+  "timestamp": "2025-07-08T08:31:37Z",
+  "s3_file_path": "s3://nahla.s3/output_files_xlx/output_result.csv",
+  "data": {
+    "projectStartDate": "2011-03-01",
+    "projectEndDate": "2011-08-27",
+    "label": [          
+          "Planned Progress (%)",
+          "Actual Progress (%)",
+          "Budget",
+          "Planned Value (PV)",
+          "Earned Value (EV)",
+          "Schedule Variance (SV)",
+          "Cost Variance (CV)",
+          "Schedule Performance Index (SPI)",
+          "Cost Performance Index (CPI)",
+          "Estimate at Completion (EAC)",
+          "Estimate to Complete (ETC)",
+          "Variance at Completion (VAC)",
+          "Estimated Project End Date"
+    ],
+    "range": [
+      {        
+        "value": [          
+          23.0,
+          19.75,
+          15043.0,
+          3459.8900000000003,
+          2970.9925000000003,
+          -488.89750000000004,
+          -3529.0074999999997,
+          0.8586956521739131,
+          0.45707576923076926,
+          32911.39240506329,
+          26411.392405063292,
+          -17868.392405063292,
+          "2011-08-27"
+        ],
+        "chartType": "lineChart",
+        "date": "2011-03-01"
+      },
+      {       
+        "value": [          
+          23.0,
+          19.75,
+          15043.0,
+          3459.8900000000003,
+          2970.9925000000003,
+          -488.89750000000004,
+          -3529.0074999999997,
+          0.8586956521739131,
+          0.45707576923076926,
+          32911.39240506329,
+          26411.392405063292,
+          -17868.392405063292,
+          "2011-08-27"
+        ],
+        "chartType": "lineChart",
+        "date": "2011-03-08"
+      }
+    ]
+  }
+}
