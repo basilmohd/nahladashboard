@@ -1,0 +1,408 @@
+{
+    "status": "success",
+    "message": "File processed and output retrieved.",
+    "timestamp": "2025-08-25T16:09:56Z",
+    "s3_file_path": "s3://nahla.s3/input_files_xer/Red_River3.xer",
+    "data": {
+        "Project_dates": {
+            "lineChart": {
+                "label": [
+                    "Data Date",
+                    "Start Date",
+                    "End Date"
+                ],
+                "value": [
+                    "2011-04-30T17:00:00",
+                    "2011-03-01T07:00:00",
+                    "2011-08-27T19:55:00"
+                ]
+            },
+            "barChart": {
+                "label": [
+                    "Data Date",
+                    "Start Date",
+                    "End Date"
+                ],
+                "value": [
+                    "2011-04-30T17:00:00",
+                    "2011-03-01T07:00:00",
+                    "2011-08-27T19:55:00"
+                ]
+            },
+            "pieChart": {
+                "label": [
+                    "Data Date",
+                    "Start Date",
+                    "End Date"
+                ],
+                "value": [
+                    "2011-04-30T17:00:00",
+                    "2011-03-01T07:00:00",
+                    "2011-08-27T19:55:00"
+                ]
+            }
+        },
+        "Total_Tasks_Statistics": {
+            "lineChart": {
+                "label": [
+                    "Total",
+                    "WBS summary",
+                    "LOE",
+                    "Start Milestones",
+                    "Finish Milestones",
+                    "Task Dependant",
+                    "Resource Dependant"
+                ],
+                "value": [
+                    98,
+                    0,
+                    0,
+                    0,
+                    0,
+                    98,
+                    0
+                ]
+            },
+            "barChart": {
+                "label": [
+                    "Total",
+                    "WBS summary",
+                    "LOE",
+                    "Start Milestones",
+                    "Finish Milestones",
+                    "Task Dependant",
+                    "Resource Dependant"
+                ],
+                "value": [
+                    98,
+                    0,
+                    0,
+                    0,
+                    0,
+                    98,
+                    0
+                ]
+            },
+            "pieChart": {
+                "label": [
+                    "Total",
+                    "WBS summary",
+                    "LOE",
+                    "Start Milestones",
+                    "Finish Milestones",
+                    "Task Dependant",
+                    "Resource Dependant"
+                ],
+                "value": [
+                    98,
+                    0,
+                    0,
+                    0,
+                    0,
+                    98,
+                    0
+                ]
+            }
+        },
+        "Task_Status": {
+            "lineChart": {
+                "label": [
+                    "Not Started",
+                    "Completed",
+                    "On Going"
+                ],
+                "value": [
+                    59,
+                    35,
+                    4
+                ]
+            },
+            "barChart": {
+                "label": [
+                    "Not Started",
+                    "Completed",
+                    "On Going"
+                ],
+                "value": [
+                    59,
+                    35,
+                    4
+                ]
+            },
+            "pieChart": {
+                "label": [
+                    "Not Started",
+                    "Completed",
+                    "On Going"
+                ],
+                "value": [
+                    59,
+                    35,
+                    4
+                ]
+            }
+        },
+        "Float_Statistics": {
+            "lineChart": {
+                "label": [
+                    "Completed_Tasks_Count",
+                    "Negative_Lag_Tasks_Count",
+                    "Critical Activities",
+                    "Float 0 to 44 Day",
+                    "Float > 44 Day"
+                ],
+                "value": [
+                    35,
+                    0,
+                    19,
+                    24,
+                    20
+                ]
+            },
+            "barChart": {
+                "label": [
+                    "Completed_Tasks_Count",
+                    "Negative_Lag_Tasks_Count",
+                    "Critical Activities",
+                    "Float 0 to 44 Day",
+                    "Float > 44 Day"
+                ],
+                "value": [
+                    35,
+                    0,
+                    19,
+                    24,
+                    20
+                ]
+            },
+            "pieChart": {
+                "label": [
+                    "Completed_Tasks_Count",
+                    "Negative_Lag_Tasks_Count",
+                    "Critical Activities",
+                    "Float 0 to 44 Day",
+                    "Float > 44 Day"
+                ],
+                "value": [
+                    35,
+                    0,
+                    19,
+                    24,
+                    20
+                ]
+            }
+        },
+        "Labour_Hours": {
+            "lineChart": {
+                "label": [
+                    "Budget",
+                    "Actual",
+                    "Remaining",
+                    "At_Completion"
+                ],
+                "value": [
+                    15043.0,
+                    4540.0,
+                    10869.0,
+                    15409.0
+                ]
+            },
+            "barChart": {
+                "label": [
+                    "Budget",
+                    "Actual",
+                    "Remaining",
+                    "At_Completion"
+                ],
+                "value": [
+                    15043.0,
+                    4540.0,
+                    10869.0,
+                    15409.0
+                ]
+            },
+            "pieChart": {
+                "label": [
+                    "Budget",
+                    "Actual",
+                    "Remaining",
+                    "At_Completion"
+                ],
+                "value": [
+                    15043.0,
+                    4540.0,
+                    10869.0,
+                    15409.0
+                ]
+            }
+        },
+        "Non_Labour_Hours": {
+            "lineChart": {
+                "label": [
+                    "Budget",
+                    "Actual",
+                    "Remaining",
+                    "At_Completion"
+                ],
+                "value": [
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            },
+            "barChart": {
+                "label": [
+                    "Budget",
+                    "Actual",
+                    "Remaining",
+                    "At_Completion"
+                ],
+                "value": [
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            },
+            "pieChart": {
+                "label": [
+                    "Budget",
+                    "Actual",
+                    "Remaining",
+                    "At_Completion"
+                ],
+                "value": [
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            }
+        },
+        "Total_Cost": {
+            "lineChart": {
+                "label": [
+                    "Budget",
+                    "Actual",
+                    "Remaining",
+                    "At_Completion"
+                ],
+                "value": [
+                    "1,198,056.00",
+                    "391,522.00",
+                    "832,532.00",
+                    "1,224,054.00"
+                ]
+            },
+            "barChart": {
+                "label": [
+                    "Budget",
+                    "Actual",
+                    "Remaining",
+                    "At_Completion"
+                ],
+                "value": [
+                    "1,198,056.00",
+                    "391,522.00",
+                    "832,532.00",
+                    "1,224,054.00"
+                ]
+            },
+            "pieChart": {
+                "label": [
+                    "Budget",
+                    "Actual",
+                    "Remaining",
+                    "At_Completion"
+                ],
+                "value": [
+                    "1,198,056.00",
+                    "391,522.00",
+                    "832,532.00",
+                    "1,224,054.00"
+                ]
+            }
+        },
+        "calculated_data": {
+            "lineChart": {
+                "label": [
+                    "Budget",
+                    "Planned Value (PV)",
+                    "Earned Value (EV)",
+                    "Schedule Variance (SV)",
+                    "Cost Variance (CV)",
+                    "Schedule Performance Index (SPI)",
+                    "Cost Performance Index (CPI)",
+                    "Estimate at Completion (EAC)",
+                    "Estimate to Complete (ETC)",
+                    "Variance at Completion (VAC)"
+                ],
+                "value": [
+                    15043.0,
+                    6017.200000000001,
+                    5372.5,
+                    -644.7000000000007,
+                    832.5,
+                    0.8928571428571428,
+                    1.1833700440528634,
+                    12712.0,
+                    8172.0,
+                    2331.0
+                ]
+            },
+            "barChart": {
+                "label": [
+                    "Budget",
+                    "Planned Value (PV)",
+                    "Earned Value (EV)",
+                    "Schedule Variance (SV)",
+                    "Cost Variance (CV)",
+                    "Schedule Performance Index (SPI)",
+                    "Cost Performance Index (CPI)",
+                    "Estimate at Completion (EAC)",
+                    "Estimate to Complete (ETC)",
+                    "Variance at Completion (VAC)"
+                ],
+                "value": [
+                    15043.0,
+                    6017.200000000001,
+                    5372.5,
+                    -644.7000000000007,
+                    832.5,
+                    0.8928571428571428,
+                    1.1833700440528634,
+                    12712.0,
+                    8172.0,
+                    2331.0
+                ]
+            },
+            "pieChart": {
+                "label": [
+                    "Budget",
+                    "Planned Value (PV)",
+                    "Earned Value (EV)",
+                    "Schedule Variance (SV)",
+                    "Cost Variance (CV)",
+                    "Schedule Performance Index (SPI)",
+                    "Cost Performance Index (CPI)",
+                    "Estimate at Completion (EAC)",
+                    "Estimate to Complete (ETC)",
+                    "Variance at Completion (VAC)"
+                ],
+                "value": [
+                    15043.0,
+                    6017.200000000001,
+                    5372.5,
+                    -644.7000000000007,
+                    832.5,
+                    0.8928571428571428,
+                    1.1833700440528634,
+                    12712.0,
+                    8172.0,
+                    2331.0
+                ]
+            }
+        }
+    }
+}

@@ -1,16 +1,36 @@
-let express = require('express');
-let cors = require('cors');
-let app = express();
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
 
+const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-let port = 8000;
-let fileName = (filename) =>{
-    return require(`./dev/${filename}.json`)
-}
-app.listen(port, () => { console.log(`Server is running on port ${port}`)});
+const port = 8000;
 
-app.post('/dev/upload',(req, res)=>{res.send(fileName('upload'))});
-app.put('/dev/upload',(req, res)=>{res.send(fileName('upload'))});
+// Function to safely load JSON file content
+const loadFile = (filename) => {
+  try {
+    return require(path.join(__dirname, 'dev', `${filename}.json`));
+  } catch (error) {
+    return null; // or throw error to handle in route
+  }
+};
+
+// Common handler for returning JSON file content
+const sendFileContent = (filename) => (req, res) => {
+  const data = loadFile(filename);
+  if (data) {
+    res.json(data);
+  } else {
+    res.status(404).json({ error: 'File not found' });
+  }
+};
+
+app.put('/dev/xer_upload', sendFileContent('upload'));
+app.put('/dev/upload', sendFileContent('upload'));
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
