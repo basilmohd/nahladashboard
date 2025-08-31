@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Dashboard from './screens/Dashboard';
 import Analytics from './screens/Analytics';
+import Analytics_mod from './screens/Analytics_modified';
 import Summary from './screens/Summary';
 import FileUpload from './screens/FileUpload';
 import Overview from './screens/Overview';
@@ -26,7 +27,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/fileUpload" element={<FileUpload />} />
-              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/analytics" element={<Analytics_mod />} />
               <Route path="/summary" element={<Summary />} />
               <Route path="/overview" element={<Overview />} />
             </Routes>

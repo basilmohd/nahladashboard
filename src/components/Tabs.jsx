@@ -99,8 +99,8 @@ const DashboardTab = ({ activeTab }) => {
 
   const excelFileUpload = (e) => {
     const file = e.target.files[0];
-
-    if (file && file.type !== 'text/csv') {
+    console.log("file", file)
+    if (file && file.type !== 'text/csv' && !file.name.endsWith('.csv')) {
       alert('Please upload a valid CSV file.')
       return
     }
