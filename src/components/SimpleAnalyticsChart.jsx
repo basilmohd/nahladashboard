@@ -16,14 +16,14 @@ import {
 const transformChartData = (responseData, chartFor) => {
   console.log("Transforming chart data for:", chartFor);
   console.log("Response Data:", responseData);
-  if (!responseData?.range || !responseData?.label) return [];
+  if (!responseData?.data?.range || !responseData?.data?.label) return [];
 
-  const labels = responseData?.label;
+  const labels = responseData?.data?.label;
   const labelindex = labels.findIndex(
     (label) => label.toLowerCase() === chartFor.toLowerCase()
   );
 
-  const ranges = responseData.range;
+  const ranges = responseData?.data?.range;
 
   let value = [];
   let label = [];
