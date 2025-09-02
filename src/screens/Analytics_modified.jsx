@@ -34,12 +34,7 @@ const Analytics_mod = () => {
 
   // console.log("premativeData?.Task_Status", premativeData?.Task_Status)
 
-  const hardCodedData = {
-    "status": "success",
-    "message": "File processed and output retrieved. from mockserver",
-    "timestamp": "2025-07-08T08:31:37Z",
-    "s3_file_path": "s3://nahla.s3/output_files_xlx/output_result.csv",
-    "data": {
+  const hardCodedData = {    
       "projectStartDate": "2011-03-01",
       "projectEndDate": "2011-08-27",
       "label": [
@@ -79,7 +74,7 @@ const Analytics_mod = () => {
         { "value": [90.0, 75.00, 15850.0, 3870.00, 3370.00, -650.00, -3350.00, 0.89, 0.47, 33750.00, 27250.00, -17460.00, "2011-09-04"], "chartType": "lineChart", "date": "2011-03-19" },
         { "value": [95.0, 80.00, 15950.0, 3920.00, 3420.00, -670.00, -3330.00, 0.98, 0.56, 33850.00, 27350.00, -17410.00, "2011-09-05"], "chartType": "lineChart", "date": "2011-03-20" }
       ]
-    }
+    
   }
 
   const labelValueMap = {};
@@ -91,14 +86,14 @@ const Analytics_mod = () => {
     return null;
   };
 
-  const responseData = promptData || data || premativeData || hardCodedData;
+  const responseData = promptData || data || premativeData ;
   let dates;
 
   console.log("responseData", responseData);
 
-  if (responseData && responseData?.data) {
-    const labels = hardCodedData.data.label;
-    const range = hardCodedData.data.range;
+  if (responseData) {
+    const labels = responseData.label;
+    const range = responseData.range;
 
     dates = range.map(row => row.date);
 
@@ -174,11 +169,9 @@ const Analytics_mod = () => {
         {/* Project data charts */}
         <div className="row g-4">
           <div className="col-md-6">
-            <SimpleAnalyticsChart responseData={responseData} chartFor="Planned Progress (%)" />
+            <SimpleAnalyticsChart responseData={responseData} chartFor={["Planned Progress (%)","Actual Progress (%)"]} />
           </div>
-          <div className="col-md-6">
-            <SimpleAnalyticsChart responseData={responseData} chartFor="Actual Progress (%)" />
-          </div>
+          
         </div>
         {/* Project Data */}
         <div className='row g-4'>
