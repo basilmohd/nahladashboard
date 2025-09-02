@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { useSelector } from 'react-redux';
-import {
-  BarChart, Bar, LineChart, Pie, PieChart, Cell, XAxis, YAxis, ResponsiveContainer, AreaChart, Area, CartesianGrid
-} from "recharts";
+import { useState } from 'react';
 import SimpleAnalyticsChart from '../components/SimpleAnalyticsChart';
+import SpeedometerBar from '../components/SpeedometerBar'
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 ChartJS.register(
   CategoryScale,
@@ -24,18 +24,65 @@ const Analytics_mod = () => {
   const { promptError, promptData } = useSelector((state) => state.promptData);
   const { dataError, data } = useSelector((state) => state.data);
   const { premativeError, premativeData } = useSelector((state) => state.premativeData);
+  const [selectedDate, setSelectedDate] = useState("Dates");
 
-  const [chartTypes, setChartTypes] = useState({
-    "Float Stats": "bar",
-    "Calculated Data": "bar"
-  });
-  const [menuOpen, setMenuOpen] = useState({});
+  const arrangedData = {};
 
-  const [selectedChart, setSelectedChart] = useState('line');
-
+  const handleSelect = (date) => {
+    setSelectedDate(date);
+  };
 
   // console.log("premativeData?.Task_Status", premativeData?.Task_Status)
 
+  const hardCodedData = {
+    "status": "success",
+    "message": "File processed and output retrieved. from mockserver",
+    "timestamp": "2025-07-08T08:31:37Z",
+    "s3_file_path": "s3://nahla.s3/output_files_xlx/output_result.csv",
+    "data": {
+      "projectStartDate": "2011-03-01",
+      "projectEndDate": "2011-08-27",
+      "label": [
+        "Planned Progress (%)",
+        "Actual Progress (%)",
+        "Budget",
+        "Planned Value (PV)",
+        "Earned Value (EV)",
+        "Schedule Variance (SV)",
+        "Cost Variance (CV)",
+        "Schedule Performance Index (SPI)",
+        "Cost Performance Index (CPI)",
+        "Estimate at Completion (EAC)",
+        "Estimate to Complete (ETC)",
+        "Variance at Completion (VAC)",
+        "Estimated Project End Date"
+      ],
+      "range": [
+        { "value": [23.0, 19.75, 15043.0, 3459.89, 2970.99, -488.89, -3529.00, 0.85, 0.45, 32911.39, 26411.39, -17868.39, "2011-08-27"], "chartType": "lineChart", "date": "2011-03-01" },
+        { "value": [24.0, 20.10, 15100.0, 3500.00, 3000.00, -500.00, -3500.00, 0.87, 0.46, 33000.00, 26500.00, -17800.00, "2011-08-28"], "chartType": "lineChart", "date": "2011-03-02" },
+        { "value": [25.0, 21.00, 15200.0, 3550.00, 3050.00, -520.00, -3480.00, 0.88, 0.47, 33100.00, 26600.00, -17750.00, "2011-08-29"], "chartType": "lineChart", "date": "2011-03-03" },
+        { "value": [26.0, 22.00, 15300.0, 3600.00, 3100.00, -540.00, -3460.00, 0.89, 0.48, 33200.00, 26700.00, -17700.00, "2011-08-30"], "chartType": "lineChart", "date": "2011-03-04" },
+        { "value": [27.0, 23.00, 15400.0, 3650.00, 3150.00, -560.00, -3440.00, 0.90, 0.49, 33300.00, 26800.00, -17650.00, "2011-08-31"], "chartType": "lineChart", "date": "2011-03-05" },
+        { "value": [28.0, 24.00, 15500.0, 3700.00, 3200.00, -580.00, -3420.00, 0.91, 0.50, 33400.00, 26900.00, -17600.00, "2011-09-01"], "chartType": "lineChart", "date": "2011-03-06" },
+        { "value": [29.0, 25.00, 15600.0, 3750.00, 3250.00, -600.00, -3400.00, 0.92, 0.51, 33500.00, 27000.00, -17550.00, "2011-09-02"], "chartType": "lineChart", "date": "2011-03-07" },
+        { "value": [30.0, 26.00, 15700.0, 3800.00, 3300.00, -620.00, -3380.00, 0.93, 0.52, 33600.00, 27100.00, -17500.00, "2011-09-03"], "chartType": "lineChart", "date": "2011-03-08" },
+        { "value": [31.0, 27.00, 15800.0, 3850.00, 3350.00, -640.00, -3360.00, 0.94, 0.53, 33700.00, 27200.00, -17450.00, "2011-09-04"], "chartType": "lineChart", "date": "2011-03-09" },
+        { "value": [32.0, 28.00, 15900.0, 3900.00, 3400.00, -660.00, -3340.00, 0.95, 0.54, 33800.00, 27300.00, -17400.00, "2011-09-05"], "chartType": "lineChart", "date": "2011-03-10" },
+        { "value": [45.0, 35.12, 15090.0, 3470.00, 3020.00, -420.00, -3500.00, 0.95, 0.48, 32950.00, 26450.00, -17820.00, "2011-08-27"], "chartType": "lineChart", "date": "2011-03-11" },
+        { "value": [60.0, 35.00, 15150.0, 3520.00, 2990.00, -470.00, -3490.00, 0.90, 0.50, 33050.00, 26550.00, -17810.00, "2011-08-28"], "chartType": "lineChart", "date": "2011-03-12" },
+        { "value": [60.0, 55.00, 15250.0, 3570.00, 3070.00, -510.00, -3470.00, 0.92, 0.52, 33150.00, 26650.00, -17760.00, "2011-08-29"], "chartType": "lineChart", "date": "2011-03-13" },
+        { "value": [70.0, 65.00, 15350.0, 3620.00, 3120.00, -530.00, -3450.00, 0.88, 0.46, 33250.00, 26750.00, -17710.00, "2011-08-30"], "chartType": "lineChart", "date": "2011-03-14" },
+        { "value": [70.0, 65.00, 15450.0, 3670.00, 3170.00, -570.00, -3430.00, 0.96, 0.54, 33350.00, 26850.00, -17660.00, "2011-08-31"], "chartType": "lineChart", "date": "2011-03-15" },
+        { "value": [75.0, 66.00, 15550.0, 3720.00, 3220.00, -590.00, -3410.00, 0.91, 0.49, 33450.00, 26950.00, -17610.00, "2011-09-01"], "chartType": "lineChart", "date": "2011-03-16" },
+        { "value": [80.0, 67.00, 15650.0, 3770.00, 3270.00, -610.00, -3390.00, 0.93, 0.51, 33550.00, 27050.00, -17560.00, "2011-09-02"], "chartType": "lineChart", "date": "2011-03-17" },
+        { "value": [85.0, 68.00, 15750.0, 3820.00, 3320.00, -630.00, -3370.00, 0.97, 0.55, 33650.00, 27150.00, -17510.00, "2011-09-03"], "chartType": "lineChart", "date": "2011-03-18" },
+        { "value": [90.0, 75.00, 15850.0, 3870.00, 3370.00, -650.00, -3350.00, 0.89, 0.47, 33750.00, 27250.00, -17460.00, "2011-09-04"], "chartType": "lineChart", "date": "2011-03-19" },
+        { "value": [95.0, 80.00, 15950.0, 3920.00, 3420.00, -670.00, -3330.00, 0.98, 0.56, 33850.00, 27350.00, -17410.00, "2011-09-05"], "chartType": "lineChart", "date": "2011-03-20" }
+      ]
+    }
+  }
+
+  const labelValueMap = {};
 
   const getErrorMessage = () => {
     if (promptError) return promptError?.error;
@@ -44,10 +91,35 @@ const Analytics_mod = () => {
     return null;
   };
 
-  const responseData = promptData || data || premativeData;
+  const responseData = promptData || data || premativeData || hardCodedData;
+  let dates;
 
-  console.log("responseData", responseData)
- 
+  console.log("responseData", responseData);
+
+  if (responseData && responseData?.data) {
+    const labels = hardCodedData.data.label;
+    const range = hardCodedData.data.range;
+
+    dates = range.map(row => row.date);
+
+    range.forEach(row => {
+      const date = row.date;
+      const values = row.value;
+
+      const labelValueMap = {};
+      labels.forEach((label, index) => {
+        labelValueMap[label] = values[index];
+      });
+
+      arrangedData[date] = labelValueMap;
+    });
+
+    console.log('dates', dates);
+    console.log('arrangedData', arrangedData);
+
+  }
+
+  console.log('labelValueMap', labelValueMap);
 
   if (!responseData) {
     return (
@@ -63,546 +135,43 @@ const Analytics_mod = () => {
     );
   }
 
-
-  const chartSections = {
-    "Task Status": responseData?.Task_Status,
-    "Labour Hours": responseData?.Labour_Hours,
-    // "Total Cost": responseData?.Total_Cost,
-    "Total Tasks": responseData?.Total_Tasks_Statistics,
-    "Float Stats": responseData?.Float_Statistics,
-    "Calculated Data": responseData?.calculated_data,
-    "Non Labour Hours": responseData?.Non_Labour_Hours,
-
-    // "Project Dates": responseData?.Project_dates,
-  };
-
-
-
-  const toggleMenu = (section) => {
-    setMenuOpen((prev) => ({
-      ...prev,
-      [section]: !prev[section],
-    }));
-  };
-
-  const changeChartType = (section, chartType) => {
-    setChartTypes((prev) => ({
-      ...prev,
-      [section]: chartType,
-    }));
-  };
-
-
-  const isFlatChartData = responseData?.lineChart && responseData?.barChart && responseData?.pieChart;
-
-
-  const LineChartData = { 
-    labels: responseData?.lineChart?.label,
-    datasets: [
-      {
-        label: 'Dataset',
-        data: responseData?.lineChart?.value,
-        borderColor: ['red', 'blue', 'orange', 'green', 'red', 'blue'],
-        backgroundColor: ['rgba(255, 0, 0, 0.2)', 'rgba(0, 0, 255, 0.2)', 'rgba(243, 243, 52, 0.2)', 'rgba(0, 255, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(0, 0, 255, 0.2)'],
-        fill: true,
-      },
-    ],
-  };
-
-  const BarChartData = {
-    labels: responseData?.barChart?.label,
-    datasets: [
-      {
-        label: 'Dataset',
-        data: responseData?.barChart?.value,
-        borderColor: ['red', 'blue', 'orange', 'green', 'red', 'blue'],
-        backgroundColor: ['rgba(255, 0, 0, 0.2)', 'rgba(0, 0, 255, 0.2)', 'rgba(243, 243, 52, 0.2)', 'rgba(0, 255, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(0, 0, 255, 0.2)'],
-        fill: true,
-      },
-    ],
-  };
-
-
-  const PieChartData = {
-    labels: responseData?.pieChart?.label,
-    datasets: [
-      {
-        label: 'Dataset',
-        data: responseData?.pieChart?.value,
-        borderColor: ['red', 'blue', 'orange', 'green', 'red', 'blue'],
-        backgroundColor: ['rgba(255, 0, 0, 0.2)', 'rgba(0, 0, 255, 0.2)', 'rgba(243, 243, 52, 0.2)', 'rgba(0, 255, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(0, 0, 255, 0.2)'],
-        fill: true,
-      },
-    ],
-  };
-
-  const labelMap = {
-    "Data Date": "Date",
-    "Project Start Date": "Start",
-    "Project End Date": "End",
-    "Planned Progress (%)": "PP",
-    "Actual Progress (%)": "AP",
-    "Budget": "BD",
-    "Planned Value (PV)": "PV",
-    "Earned Value (EV)": "EV",
-    "Schedule Variance (SV)": "SV",
-    "Cost Variance (CV)": "CV",
-    "Schedule Performance Index (SPI)": "SPI",
-    "Cost Performance Index (CPI)": "CPI",
-    "Estimate at Completion (EAC)": "EAC",
-    "Estimate to Complete (ETC)": "ETC",
-    "Variance at Completion (VAC)": "VAC",
-    "Estimated Project End Date": "Est. End",
-    "Percentage of Tasks Completed": " %"
-
-  };
-
-  const desiredKeys = [
-    "Planned Progress (%)",
-    "Actual Progress (%)",
-    "Planned Value (PV)"
-  ];
-
-  const desiredKeys2 = [
-    "Planned Progress (%)",
-    "Actual Progress (%)",
-    "Budget",
-  ];
-
-  let LineData = [];
-  let barData = [];
-  let pieData1 = [];
-
-  if (isFlatChartData) {
-    console.log("Flat chart data detected");
-    console.log("responseData.lineChart.label", responseData.lineChart.label);
-    LineData = responseData.lineChart.label.map((label, index) => ({
-      name: labelMap[label] || label,
-      value: responseData.lineChart.value[index],
-      rawLabel: label
-    })).filter(item => desiredKeys.includes(item.rawLabel) && typeof item.value === "number")
-    console.log("Filtered LineData >>>", LineData);
-
-    barData = responseData.barChart.label.map((label, index) => ({
-      name: labelMap[label] || label,
-      value: responseData.barChart.value[index],
-      rawLabel: label
-
-
-    })).filter(item => desiredKeys2.includes(item.rawLabel) && typeof item.value === "number")
-    console.log("Filtered barData >>>", barData);
-
-    pieData1 = responseData.pieChart.label.map((label, index) => ({
-      name: labelMap[label] || label,
-      value: responseData.pieChart.value[index],
-      rawLabel: label
-
-
-    })).filter(item => desiredKeys2.includes(item.rawLabel) && typeof item.value === "number")
-    console.log("Filtered pieData1 >>>", pieData1);
-
-  }
-
-
-
-  // const pieData = responseData.pieChart.label
-  //   .map((label, index) => ({
-  //     name: label,
-  //     value: responseData.pieChart.value[index]
-  //   })).filter(item => typeof item.value === "number");
-  //   console.log("Filtered pieData >>>", pieData);
-
-  const pieData = [
-
-    { name: 'Planned Progress (%)', value: 20 },
-    { name: 'Actual Progress (%)', value: 15 },
-    { name: 'Budget', value: 15043 },
-    { name: 'Planned Value (PV)', value: 3008.6000000000004 },
-    { name: 'Earned Value (EV)', value: 2256.45 },
-    { name: 'Schedule Variance (SV)', value: -752.1500000000005 },
-    { name: 'Cost Variance (CV)', value: -4243.55 },
-    { name: 'Schedule Performance Index (SPI)', value: 0.7499999999999999 },
-    { name: 'Cost Performance Index (CPI)', value: 0.3471461538461538 },
-    { name: 'Estimate at Completion (EAC)', value: 43333.333333333336 },
-    { name: 'Estimate to Complete (ETC)', value: 41076.88333333334 },
-    { name: 'Variance at Completion (VAC)', value: -28290.333333333336 },
-    { name: 'Percentage of Tasks Completed', value: 15 },
-  ];
-
-
-  const COLORS = [
-    'rgba(70, 168, 214, 0.8)',
-    'rgba(54, 162, 235, 0.8)',
-    'rgba(37, 92, 241, 0.8)',
-    'rgba(8, 71, 187, 0.8)',
-    'rgba(36, 45, 165, 0.8)',
-    'rgba(21, 93, 175, 0.8)',
-    'rgba(70, 168, 214, 0.8)',
-    'rgba(54, 162, 235, 0.8)',
-    'rgba(37, 92, 241, 0.8)',
-    'rgba(8, 71, 187, 0.8)',
-    'rgba(36, 45, 165, 0.8)',
-    'rgba(21, 93, 175, 0.8)',
-    'rgba(21, 93, 175, 0.8)',
-
-  ];
-
-  let Labour_Hours = [];
-  console.log("isFlatChartData", isFlatChartData);
-  if (!isFlatChartData && responseData?.Labour_Hours?.lineChart?.label) {
-    Labour_Hours = responseData.Labour_Hours.lineChart.label.map((label, index) => ({
-      LabourLabel: label,
-      LabourValue: responseData.Labour_Hours.lineChart.value[index],
-      LabourValue2: responseData.Non_Labour_Hours.lineChart.value[index],
-    }));
-  }
-
-
   return (
     <>
-      {/* {isFlatChartData ? (
-
-        <div className="container p-4" style={{ marginLeft: '200px', padding: '20px', width: "100%" }}>
-          <h2 style={{ marginTop: "15px" }}>Analytics</h2>
-
-          <div className="row g-4" style={{ width: "115%", marginTop: "15px" }}>
-            <div className="col-md-6">
-              <div style={{ marginBottom: '40px' }}>
-                <div className="p-3 bg-white" style={{
-                  borderRadius: "15px",
-                  boxShadow: "0 20px 30px rgba(0, 0, 0, 0.2)",
-                  height: "100%"
-                }}>
-                  <h2>Line Chart</h2>
-                  {console.log("LineData", LineData)}
-                  <ResponsiveContainer width="100%" height={300}>
-                    <AreaChart data={LineData} style={{ width: "100%" }}>
-                      <defs style={{ width: "100%" }}>
-                        <linearGradient id="area-gradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#010d57" stopOpacity={1} />
-                          <stop offset="100%" stopColor="#0728e6" stopOpacity={0} />
-                        </linearGradient>
-                      </defs>
-                      <Area dataKey="value" fill="url(#area-gradient)" />
-                      <CartesianGrid stroke="#f5f5f5" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-6">
-
-              <div style={{ marginBottom: '40px' }}>
-                <div className="p-3 bg-white" style={{
-                  borderRadius: "15px",
-                  boxShadow: "0 20px 30px rgba(0, 0, 0, 0.2)",
-                  height: "100%"
-                }}>
-                  <h2>Bar Chart</h2>
-
-                  <ResponsiveContainer width="100%" height={300} >
-                    <BarChart data={barData} style={{ width: "100%" }}>
-                      <defs>
-                        <linearGradient id="bar-gradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#010d57" stopOpacity={1} />
-                          <stop offset="100%" stopColor="#0728e6" stopOpacity={1} />
-                        </linearGradient>
-                      </defs>
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <Tooltip />
-                      <Bar dataKey="value" fill="url(#bar-gradient)" barSize={10} radius={[10, 10, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-
-            </div>
-            <div className="col-md-6">
-
-
-              <div style={{ marginBottom: '40px' }}>
-                <div className="p-3 bg-white" style={{
-                  borderRadius: "15px",
-                  boxShadow: "0 20px 30px rgba(0, 0, 0, 0.2)",
-                  height: "100%"
-                }}>
-                  <h2>Pie Chart</h2>
-
-                  <ResponsiveContainer width="100%" height={400}>
-                    <PieChart>
-                      <defs>
-                        <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-                          <feDropShadow dx="0" dy="2" stdDeviation="4" floodColor="#000" floodOpacity="0.2" />
-                        </filter>
-                      </defs>
-
-                      <Pie
-                        data={pieData1}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={70}
-                        outerRadius={120}
-                        fill="#3A53F3"
-                        dataKey="value"
-                        label
-                        filter="url(#shadow)"
-                      >
-                        {pieData1.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      ) : (
-
-        <>
-          <div className="container p-4">
-            <div className="row g-4">
-              <div className="col-md-6">
-
-                {responseData?.Labour_Hours && responseData?.Non_Labour_Hours && (
-                  <div className="p-3 bg-white" style={{
-                    borderRadius: "15px",
-                    boxShadow: "0 20px 30px rgba(0, 0, 0, 0.2)",
-                    height: "100%"
-                  }}>
-                    <h4>Labour Hours vs Non Labour Hours</h4>
-
-
-                    <ResponsiveContainer width="100%" height={300}>
-                      <p>Line Chart</p>
-                      {console.log("Labour_Hours", Labour_Hours)}
-                      <AreaChart data={Labour_Hours} style={{ width: "100%" }}>
-                        <defs style={{ width: "100%" }}>
-                          <linearGradient id="area-gradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#010d57" stopOpacity={1} />
-                            <stop offset="100%" stopColor="#0728e6" stopOpacity={0} />
-                          </linearGradient>
-                          <linearGradient id="gradient2" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="pink" stopOpacity={1} />
-                            <stop offset="100%" stopColor="pink" stopOpacity={0} />
-                          </linearGradient>
-                        </defs>
-                        <Area dataKey="LabourValue" fill="url(#area-gradient)" />
-                        <Area dataKey="LabourValue2" fill="url(#area-gradient)" />
-
-                        <CartesianGrid stroke="#f5f5f5" />
-                        <XAxis dataKey="LabourLabel" />
-                        <YAxis />
-                      </AreaChart>
-                    </ResponsiveContainer>
-                  </div>
-                )}
-              </div>
-
-
-              {Object.entries(chartSections).map(([sectionTitle, chartData], index) =>
-                chartData?.lineChart && chartData?.barChart && chartData?.pieChart ? (
-                  <div key={sectionTitle} className="col-md-6">
-                    <div className="p-3 rounded" style={{ boxShadow: "0 20px 30px rgba(0, 0, 0, 0.2)", height: "100%" }}>
-
-                      {["Float Stats", "Calculated Data"].includes(sectionTitle) ? null : (
-                        <div onClick={() => toggleMenu(sectionTitle)} style={{ display: "flex", justifyContent: "space-between", position: "relative" }}>
-                          <h4 className="mb-3">{sectionTitle.replace(/_/g, ' ')}</h4>
-                          <div style={{ background: "#cfdef7", height: "30px", borderRadius: "5px" }}>
-                            <img src="./menu.svg" style={{ height: "20px", cursor: "pointer" }} />
-                          </div>
-
-                          {menuOpen[sectionTitle] && (
-                            <div
-                              style={{
-                                position: "absolute",
-                                top: "100%",
-                                right: 0,
-                                background: "#fff",
-                                border: "1px solid #ccc",
-                                boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-                                zIndex: 100,
-                                padding: 8,
-                                marginTop: -15
-                              }}
-                            >
-                              <select
-                                value={chartTypes[sectionTitle] || 'line'}
-                                onChange={(e) => changeChartType(sectionTitle, e.target.value)}
-                                style={{ border: 'none', fontSize: '14px', background: "none" }}
-                              >
-                                <option value="line">Line Graph</option>
-                                <option value="bar">Bar Graph</option>
-                                <option value="pie">Pie Graph</option>
-                              </select>
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {["Float Stats", "Calculated Data"].includes(sectionTitle) ? (
-                        <div style={{ overflowX: "auto" }}>
-                          <table className="table table-bordered">
-                            <thead className="thead-light">
-                              <tr>
-                                <th>Label</th>
-                                <th>Value</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {chartData.barChart.label
-                                .map((label, idx) => ({
-                                  label,
-                                  value: chartData.barChart.value[idx]
-                                }))
-                                .filter(
-                                  ({ label }) =>
-                                    ![
-                                      "Planned Value (PV)",
-                                      "Earned Value (EV)",
-                                      "Schedule Performance Index (SPI)",
-                                      "Cost Performance Index (CPI)"
-                                    ].includes(label)
-                                )
-                                .map(({ label, value }, idx) => (
-                                  <tr key={idx}>
-                                    <td>{label}</td>
-                                    <td>{Number(value).toLocaleString()}</td>
-                                  </tr>
-                                ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      ) : (
-                        <>
-                          {(chartTypes[sectionTitle] || "line") === "line" && (
-                            <div style={{ marginBottom: "20px" }}>
-                              <p>Line Chart</p>
-                              {console.log("chartData", chartData.lineChart)}
-                              {console.log("section title", sectionTitle)}
-                              <ResponsiveContainer width="100%" height={300}>
-                                <AreaChart
-                                  data={chartData.lineChart.label.map((label, idx) => ({
-                                    label,
-                                    value: Number(chartData.lineChart.value[idx]) || 0,
-                                  }))}
-                                >
-                                  <defs>
-                                    <linearGradient id="area-gradient" x1="0" y1="0" x2="0" y2="1">
-                                      <stop offset="0%" stopColor="#010d57" stopOpacity={1} />
-                                      <stop offset="100%" stopColor="#0728e6" stopOpacity={0} />
-                                    </linearGradient>
-                                  </defs>
-                                  <CartesianGrid stroke="#ccc" />
-                                  <XAxis dataKey="label" />
-                                  <YAxis />
-                                  <Tooltip />
-                                  <Legend />
-                                  <Area
-                                    type="monotone"
-                                    dataKey="value"
-                                    stroke="#007bff"
-                                    fill="url(#area-gradient)"
-                                    name={sectionTitle.replace(/_/g, " ")}
-                                  />
-                                </AreaChart>
-                              </ResponsiveContainer>
-                            </div>
-                          )}
-
-                          {chartTypes[sectionTitle] === "bar" && (
-                            <div style={{ marginBottom: "20px" }}>
-                              <p>Bar Chart</p>
-                              <ResponsiveContainer width="100%" height={300}>
-                                <BarChart
-                                  data={chartData.barChart.label.map((label, idx) => ({
-                                    label,
-                                    value: Number(chartData..value[idx]) || 0,
-                                  }))}
-                                >
-                                  <defs>
-                                    <linearGradient id={`bar-gradient`} x1="0" y1="0" x2="0" y2="1">
-                                      <stop offset="0%" stopColor="#010d57" stopOpacity={1} />
-                                      <stop offset="100%" stopColor="#0728e6" stopOpacity={1} />
-                                    </linearGradient>
-                                  </defs>
-                                  <CartesianGrid strokeDasharray="3 3" />
-                                  <XAxis dataKey="label" />
-                                  <YAxis />
-                                  <Tooltip />
-                                  <Legend />
-                                  <Bar
-                                    dataKey="value"
-                                    name={sectionTitle.replace(/_/g, " ")}
-                                    fill={`url(#bar-gradient)`}
-                                    barSize={10}
-                                    radius={[10, 10, 0, 0]}
-                                  />
-                                </BarChart>
-                              </ResponsiveContainer>
-                            </div>
-                          )}
-
-                          {chartTypes[sectionTitle] === "pie" && (
-                            <div style={{ marginBottom: "20px" }}>
-                              <p>Pie Chart</p>
-                              <ResponsiveContainer width="100%" height={300}>
-                                <PieChart>
-                                  <defs>
-                                    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-                                      <feDropShadow dx="0" dy="2" stdDeviation="4" floodColor="#000" floodOpacity="0.2" />
-                                    </filter>
-                                  </defs>
-                                  <Pie
-                                    data={chartData.pieChart.label.map((label, idx) => ({
-                                      name: label,
-                                      value: Number(chartData.pieChart.value[idx]) || 0,
-                                    }))}
-                                    dataKey="value"
-                                    nameKey="name"
-                                    cx="50%"
-                                    cy="50%"
-                                    innerRadius={70}
-                                    outerRadius={120}
-                                    fill="#3A53F3"
-                                    filter="url(#shadow)"
-                                    label
-                                  >
-                                    {chartData.pieChart.label.map((_, idx) => (
-                                      <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
-                                    ))}
-                                  </Pie>
-                                  <Tooltip />
-                                  <Legend />
-                                </PieChart>
-                              </ResponsiveContainer>
-                            </div>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </div>
-                ) : null
-              )}
-
-
-            </div>
-          </div>
-
-        </>
-      )
-      } */}
-
+      <div className='row float-end m-2'>
+        <Dropdown as={ButtonGroup}>
+          <Button variant="secondary">{selectedDate}</Button>
+          <Dropdown.Toggle split variant="secondary" id="dropdown-split-basic" />
+          <Dropdown.Menu>
+            {dates &&
+              dates.map((date, index) => (
+                <Dropdown.Item key={index} onClick={() => handleSelect(date)}>
+                  {date}
+                </Dropdown.Item>
+              ))}
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
       <div className="container p-4">
+        {/* Key Metrics */}
+        {selectedDate != 'Dates' &&
+          <div className='row g-4'>
+            <div className='col-md-3 m-2'>
+              <SpeedometerBar
+                selectedDate={selectedDate}
+                currentValueText='Schedule Performance Index (SPI)'
+                arrangedData={arrangedData}
+              />
+            </div>
+            <div className='col-md-3 m-2'>
+              <SpeedometerBar
+                selectedDate={selectedDate}
+                currentValueText='Cost Performance Index (CPI)'
+                arrangedData={arrangedData}
+              />
+            </div>
+          </div>
+        }
+        {/* Project data charts */}
         <div className="row g-4">
           <div className="col-md-6">
             <SimpleAnalyticsChart responseData={responseData} chartFor="Planned Progress (%)" />
@@ -611,7 +180,11 @@ const Analytics_mod = () => {
             <SimpleAnalyticsChart responseData={responseData} chartFor="Actual Progress (%)" />
           </div>
         </div>
-      </div>    
+        {/* Project Data */}
+        <div className='row g-4'>
+
+        </div>
+      </div>
     </>
   );
 }
