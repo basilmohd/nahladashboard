@@ -10,8 +10,8 @@ export const uploadFile = createAsyncThunk(
 
       const response = await axios.put(
         //'https://geub7uzlzh.execute-api.ap-southeast-2.amazonaws.com/dev/upload',
-        `${process.env.REACT_APP_MOCKSERVER}/dev/upload`,
-        //'https://geub7uzlzh.execute-api.ap-southeast-2.amazonaws.com/dev/upload',
+        //`${process.env.REACT_APP_MOCKSERVER}/dev/upload`,
+        'https://geub7uzlzh.execute-api.ap-southeast-2.amazonaws.com/dev/upload',
         fileFormData,
         {
           headers: {
