@@ -9,8 +9,8 @@ export const premativeUploadFile = createAsyncThunk(
       fileFormData.append('file', file);
 
       const response = await axios.put(
-         //'https://py6bssbh06.execute-api.ap-southeast-2.amazonaws.com/dev/xer_upload',
-        `${process.env.REACT_APP_MOCKSERVER}/dev/xer_upload`,
+         'https://py6bssbh06.execute-api.ap-southeast-2.amazonaws.com/dev/xer_upload',
+        //`${process.env.REACT_APP_MOCKSERVER}/dev/xer_upload`,
         fileFormData,
         {
           headers: {

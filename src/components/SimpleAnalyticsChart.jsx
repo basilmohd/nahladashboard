@@ -19,7 +19,7 @@ const transformChartData = (responseData, chartFor) => {
   if (!responseData?.range || !responseData?.label) return [];
 
   const labels = responseData?.label;
-   
+
   const labelindex = labels.findIndex(
     (label) => label.toLowerCase() === chartFor.toLowerCase()
   );
@@ -61,22 +61,21 @@ const COLORS = [
 ];
 
 const SimpleAnalyticsChart = ({ responseData, chartFor }) => {
- // const chartData = transformChartData(responseData, chartFor);
-    let chartData;
+  // const chartData = transformChartData(responseData, chartFor);
+  let chartData;
   console.log("Transformed Chart Data:", chartData);
-   if(chartFor.length > 1){
+  if (chartFor.length > 1) {
     const combinedData = { label: [], value: [] };
     chartFor.forEach((chart) => {
-        const singleChartData = transformChartData(responseData, chart);
-        if (singleChartData) {
-            combinedData.label = singleChartData.label; // Assuming all charts have the same labels
-            combinedData.value.push(singleChartData.value);
-        }
+      const singleChartData = transformChartData(responseData, chart);
+      if (singleChartData) {
+        combinedData.label = singleChartData.label; // Assuming all charts have the same labels
+        combinedData.value.push(singleChartData.value);
+      }
     });
     chartData = combinedData;
     console.log("Combined Chart Data:", combinedData);
-    }
-  else {
+  } else {
     const singleChartData = transformChartData(responseData, chartFor[0]);
     chartData = singleChartData;
   }
@@ -87,58 +86,82 @@ const SimpleAnalyticsChart = ({ responseData, chartFor }) => {
 
   return (
     <>
-      {/* <div style={{ width: "100%", height: 400 }}>
-        <ResponsiveContainer width="100%" height={300}>
-          <AreaChart data={chartData} style={{ width: "100%" }}>
-            <defs style={{ width: "100%" }}>
-              <linearGradient id="area-gradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#010d57" stopOpacity={1} />
-                <stop offset="100%" stopColor="#0728e6" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <Area dataKey="value" fill="url(#area-gradient)" />
-            <CartesianGrid stroke="#ccc" />
-            <XAxis dataKey="label" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Area
-              type="monotone"
-              dataKey="value"
-              stroke="#007bff"
-              fill="url(#area-gradient)"
-              name={chartFor}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div> */}
-
       <div style={{ marginBottom: "20px" }}>
-        <p>Chart for {chartFor[0]} vs {chartFor[1]}</p>
-        <ResponsiveContainer width="100%" height={300}>
-          <AreaChart
-            data={chartData.label.map((label, idx) => ({
-              label,
-              planned: chartData.value[0][idx],
-              actual: chartData.value[1][idx]
-            }))}
-          >
-            <defs>
-              <linearGradient id="area-gradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#010d57" stopOpacity={1} />
-                <stop offset="100%" stopColor="#0728e6" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-             <Area dataKey="planned" fill="url(#area-gradient)" />
-            <Area dataKey="actual" fill="url(#area-gradient)" />
-            <CartesianGrid stroke="#ccc" />
-            <XAxis dataKey="label" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-           
-          </AreaChart>
-        </ResponsiveContainer>
+        {chartFor.length > 1 ? (
+          <>
+            <p style={{fontSize: "large", fontWeight: 600, marginBottom: "1rem" }}>
+              Chart for {chartFor[0]} vs {chartFor[1]}
+            </p>
+            <ResponsiveContainer width="100%" height={300}>
+              <AreaChart
+                data={chartData.label.map((label, idx) => ({
+                  label,
+                  planned: chartData.value[0][idx],
+                  actual: chartData.value[1][idx],
+                }))}
+              >
+                <defs>
+                  <linearGradient
+                    id="area-gradient"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="0%" stopColor="#010d57" stopOpacity={1} />
+                    <stop offset="100%" stopColor="#0728e6" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <Area dataKey="planned" fill="url(#area-gradient)" />
+                <Area dataKey="actual" fill="url(#area-gradient)" />
+                <CartesianGrid stroke="#ccc" />
+                <XAxis dataKey="label" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+              </AreaChart>
+            </ResponsiveContainer>
+          </>
+        ) : (
+          <>
+            <p style={{fontSize: "large", fontWeight: 600, marginBottom: "1rem" }}>
+              Chart for {chartFor[0]}
+            </p>
+            <ResponsiveContainer width="100%" height={300}>
+              <AreaChart
+                data={chartData.label.map((label, idx) => ({
+                  label,
+                  value: chartData.value[idx],
+                }))}
+              >
+                <defs>
+                  <linearGradient
+                    id="area-gradient"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="0%" stopColor="#010d57" stopOpacity={1} />
+                    <stop offset="100%" stopColor="#0728e6" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid stroke="#ccc" />
+                <XAxis dataKey="label" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Area
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#007bff"
+                  fill="url(#area-gradient)"
+                  name={chartFor}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </>
+        )}
       </div>
     </>
   );
