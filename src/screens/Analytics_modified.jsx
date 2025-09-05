@@ -1,11 +1,12 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SimpleAnalyticsChart from '../components/SimpleAnalyticsChart';
 import SpeedometerBar from '../components/SpeedometerBar'
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
+import TableComponent from '../components/TableComponent';
 
 ChartJS.register(
   CategoryScale,
@@ -25,8 +26,12 @@ const Analytics_mod = () => {
   const { dataError, data } = useSelector((state) => state.data);
   const { premativeError, premativeData } = useSelector((state) => state.premativeData);
   const [selectedDate, setSelectedDate] = useState("Dates");
-
-  const arrangedData = {};
+  const [arrangedData, setArrangedData] = useState({});
+  const [dates, setDates] = useState([]);
+  const [lookAheadColumns, setlookAheadColumns] = useState([]);
+  const [projectDataTableColumns, setprojectDataTableColumns] = useState([]);
+  const [lookAheadTableData, setlookAheadTableData] = useState([]);
+  const [projectDataTableData, setprojectDataTableData] = useState([]);
 
   const handleSelect = (date) => {
     setSelectedDate(date);
@@ -86,33 +91,65 @@ const Analytics_mod = () => {
     return null;
   };
 
-  const responseData = promptData || data || premativeData ;
-  let dates;
+  const responseData = promptData || data || premativeData || hardCodedData;
 
   console.log("responseData", responseData);
 
-  if (responseData) {
-    const labels = responseData.label;
-    const range = responseData.range;
+  useEffect(() => {
+    if (responseData) {
+      const labels = responseData.label;
+      const range = responseData.range;
+      const tempArrangedData = {};
+      const extractedDates = range.map(row => row.date);
 
-    dates = range.map(row => row.date);
+      range.forEach(row => {
+        const date = row.date;
+        const values = row.value;
 
-    range.forEach(row => {
-      const date = row.date;
-      const values = row.value;
+        const labelValueMap = {};
+        labels.forEach((label, index) => {
+          labelValueMap[label] = values[index];
+        });
 
-      const labelValueMap = {};
-      labels.forEach((label, index) => {
-        labelValueMap[label] = values[index];
+        tempArrangedData[date] = labelValueMap;
       });
 
-      arrangedData[date] = labelValueMap;
-    });
+      console.log('dates', extractedDates);
+      console.log('arrangedData', tempArrangedData);
 
-    console.log('dates', dates);
-    console.log('arrangedData', arrangedData);
-
-  }
+      if (
+      JSON.stringify(extractedDates) !== JSON.stringify(dates) ||
+      selectedDate !== extractedDates[extractedDates.length - 1] ||
+      JSON.stringify(arrangedData) !== JSON.stringify(tempArrangedData)
+    ) {
+      setDates(extractedDates);
+      setSelectedDate(extractedDates[extractedDates.length - 1]);
+      setArrangedData(tempArrangedData);
+      setlookAheadColumns([
+        { key: "tasks", header: "Tasks", width: "40%" },
+        { key: "si", header: "SI", width: "30%" },
+        { key: "fn", header: "FN", width: "30%" },
+      ]);
+      setlookAheadTableData([
+        { "tasks":"Task 1", "si":"12.23", "fn":"123"},
+        { "tasks":"Task 2", "si":"12.24", "fn":"1234"},
+        { "tasks":"Task 3", "si":"12.25", "fn":"12345"},
+      ])
+      setprojectDataTableColumns([
+        { key: "tasks", header: "Tasks" },
+        { key: "completedTask", header: "Completed Task" },
+        { key: "ongoing", header: "OnGoing" },
+        { key: "notStarted", header: "NotStarted" },
+        { key: "status", header: "Status" },
+      ]);
+      setprojectDataTableData([
+        { "tasks":"Task 1", "completedTask":"12.23", "ongoing":"123", "notStarted":"Yes", "status":"Online"},
+        { "tasks":"Task 2", "completedTask":"12.24", "ongoing":"1234", "notStarted":"No", "status":"Online"},
+        { "tasks":"Task 3", "completedTask":"12.25", "ongoing":"12345", "notStarted":"Yes", "status":"Offline"},
+      ])
+    }
+    }
+  }, [responseData])
 
   console.log('labelValueMap', labelValueMap);
 
@@ -132,7 +169,8 @@ const Analytics_mod = () => {
 
   return (
     <>
-      <div className='row float-end m-2'>
+      {/* Dates Dropdown */}
+      {/* <div className='row float-end m-2'>
         <Dropdown as={ButtonGroup}>
           <Button variant="secondary">{selectedDate}</Button>
           <Dropdown.Toggle split variant="secondary" id="dropdown-split-basic" />
@@ -145,10 +183,10 @@ const Analytics_mod = () => {
               ))}
           </Dropdown.Menu>
         </Dropdown>
-      </div>
+      </div> */}
       <div className="container p-4">
         {/* Key Metrics */}
-        {selectedDate != 'Dates' &&
+        {selectedDate != 'Dates' && Object.keys(arrangedData).length > 0 &&
           <div className='row g-4'>
             <div className='col-md-3 m-2'>
               <SpeedometerBar
@@ -176,6 +214,16 @@ const Analytics_mod = () => {
         {/* Project Data */}
         <div className='row g-4'>
 
+        </div>
+      </div>
+      <div style={{ display:"flex", margin:"2rem"}}>
+        {/* 2 weeks lookahead */}
+        <div className='m-2'>
+          <TableComponent columns={lookAheadColumns} data={lookAheadTableData} ></TableComponent>
+        </div>
+        {/* Project Data Table */}
+        <div className='m-2'>
+          <TableComponent columns={projectDataTableColumns} data={projectDataTableData}></TableComponent>
         </div>
       </div>
     </>
