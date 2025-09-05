@@ -25,3 +25,9 @@
     margin-left: 60px; /* or 0 to fully overlap */
   }
 }
+
+.custom-card{
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+}
