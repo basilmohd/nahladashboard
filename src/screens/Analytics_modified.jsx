@@ -285,11 +285,11 @@ const Analytics_mod = () => {
       <div style={{ display: "flex", margin: "2rem" }}>
         {/* 2 weeks lookahead */}
         <div className='m-2'>
-          <TableComponent columns={lookAheadColumns} data={lookAheadTableData} ></TableComponent>
+          <TableComponent columns={lookAheadColumns} data={lookAheadTableData} label={'2 Weeks Look Ahead'}></TableComponent>
         </div>
         {/* Project Data Table */}
         <div className='m-2'>
-          <TableComponent columns={projectDataTableColumns} data={projectDataTableData}></TableComponent>
+          <TableComponent columns={projectDataTableColumns} data={projectDataTableData} label={'Project Data Table'}></TableComponent>
         </div>
       </div>
     </>

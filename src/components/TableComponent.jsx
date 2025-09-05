@@ -6,9 +6,14 @@ import React from "react";
 //   { key: "age", header: "Age" },
 // ]
 
-const TableComponent = ({ columns, data }) => (
+const TableComponent = ({ columns, data, label }) => (
     <div style={{ overflowX: "auto", maxWidth: "100%" }}>
-        <table style={{ borderCollapse: "collapse"}}>
+        {label &&
+            <div>
+                <h4>{label}</h4>
+            </div>
+        }
+        <table style={{ borderCollapse: "collapse" }}>
             <thead>
                 <tr>
                     {columns.map((column, idx) => (
