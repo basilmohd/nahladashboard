@@ -1,12 +1,23 @@
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
-import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import SimpleAnalyticsChart from '../components/SimpleAnalyticsChart';
-import SpeedometerBar from '../components/SpeedometerBar'
-import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Dropdown from 'react-bootstrap/Dropdown';
-import TableComponent from '../components/TableComponent';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+} from "chart.js";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import SimpleAnalyticsChart from "../components/SimpleAnalyticsChart";
+import SpeedometerBar from "../components/SpeedometerBar";
+import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Dropdown from "react-bootstrap/Dropdown";
+import TableComponent from "../components/TableComponent";
 
 ChartJS.register(
   CategoryScale,
@@ -18,13 +29,14 @@ ChartJS.register(
   Tooltip,
   Legend,
   ArcElement
-)
+);
 
 const Analytics_mod = () => {
-
   const { promptError, promptData } = useSelector((state) => state.promptData);
   const { dataError, data } = useSelector((state) => state.data);
-  const { premativeError, premativeData } = useSelector((state) => state.premativeData);
+  const { premativeError, premativeData } = useSelector(
+    (state) => state.premativeData
+  );
   const [selectedDate, setSelectedDate] = useState("Dates");
   const [arrangedData, setArrangedData] = useState({});
   const [dates, setDates] = useState([]);
@@ -91,7 +103,18 @@ const Analytics_mod = () => {
     return null;
   };
 
-  const responseData = promptData || data || premativeData;
+  let responseData;
+  let navigationRoot;
+  if (data) {
+    responseData = data;
+    navigationRoot = "excel";
+  } else if (premativeData) {
+    responseData = premativeData;
+    navigationRoot = "premative";
+  } else {
+    responseData = promptData;
+    navigationRoot = "prompt";
+  }
 
   console.log("responseData", responseData);
 
@@ -100,9 +123,9 @@ const Analytics_mod = () => {
       const labels = responseData.label;
       const range = responseData.range;
       const tempArrangedData = {};
-      const extractedDates = range.map(row => row.date);
+      const extractedDates = range.map((row) => row.date);
 
-      range.forEach(row => {
+      range.forEach((row) => {
         const date = row.date;
         const values = row.value;
 
@@ -114,8 +137,8 @@ const Analytics_mod = () => {
         tempArrangedData[date] = labelValueMap;
       });
 
-      console.log('dates', extractedDates);
-      console.log('arrangedData', tempArrangedData);
+      console.log("dates", extractedDates);
+      console.log("arrangedData", tempArrangedData);
 
       if (
         JSON.stringify(extractedDates) !== JSON.stringify(dates) ||
@@ -131,10 +154,10 @@ const Analytics_mod = () => {
           { key: "fn", header: "FN", width: "30%" },
         ]);
         setlookAheadTableData([
-          { "tasks": "Task 1", "si": "12.23", "fn": "123" },
-          { "tasks": "Task 2", "si": "12.24", "fn": "1234" },
-          { "tasks": "Task 3", "si": "12.25", "fn": "12345" },
-        ])
+          { tasks: "Task 1", si: "12.23", fn: "123" },
+          { tasks: "Task 2", si: "12.24", fn: "1234" },
+          { tasks: "Task 3", si: "12.25", fn: "12345" },
+        ]);
         setprojectDataTableColumns([
           { key: "tasks", header: "Tasks" },
           { key: "completedTask", header: "Completed Task" },
@@ -143,21 +166,39 @@ const Analytics_mod = () => {
           { key: "status", header: "Status" },
         ]);
         setprojectDataTableData([
-          { "tasks": "Task 1", "completedTask": "12.23", "ongoing": "123", "notStarted": "Yes", "status": "Online" },
-          { "tasks": "Task 2", "completedTask": "12.24", "ongoing": "1234", "notStarted": "No", "status": "Online" },
-          { "tasks": "Task 3", "completedTask": "12.25", "ongoing": "12345", "notStarted": "Yes", "status": "Offline" },
-        ])
+          {
+            tasks: "Task 1",
+            completedTask: "12.23",
+            ongoing: "123",
+            notStarted: "Yes",
+            status: "Online",
+          },
+          {
+            tasks: "Task 2",
+            completedTask: "12.24",
+            ongoing: "1234",
+            notStarted: "No",
+            status: "Online",
+          },
+          {
+            tasks: "Task 3",
+            completedTask: "12.25",
+            ongoing: "12345",
+            notStarted: "Yes",
+            status: "Offline",
+          },
+        ]);
       }
     }
-  }, [responseData])
+  }, [responseData]);
 
-  console.log('labelValueMap', labelValueMap);
+  console.log("labelValueMap", labelValueMap);
 
   if (!responseData) {
     return (
-      <div style={{ marginLeft: '280px', padding: '20px' }}>
+      <div style={{ marginLeft: "280px", padding: "20px" }}>
         {getErrorMessage() ? (
-          <div style={{ color: 'red' }}>
+          <div style={{ color: "red" }}>
             <b>Error:</b> {getErrorMessage()}
           </div>
         ) : (
@@ -291,20 +332,33 @@ const Analytics_mod = () => {
         </div>
         {/* Project Data */}
         <div className="m-4 row g-4">
-          <div className="col-md-2">
-            <TableComponent
-              columns={lookAheadColumns}
-              data={lookAheadTableData}
-              label={"2 Weeks Look Ahead"}
-            ></TableComponent>
-          </div>
-          <div className="col-md-4">
-            <TableComponent
-              columns={projectDataTableColumns}
-              data={projectDataTableData}
-              label={"Project Data Table"}
-            ></TableComponent>
-          </div>
+          {navigationRoot === "excel" ? (
+            <div className="col-md-3">
+              <TableComponent
+                columns={lookAheadColumns}
+                data={lookAheadTableData}
+                label={"2 Weeks Look Ahead"}
+              ></TableComponent>
+            </div>
+          ) : (
+            <>
+              <div className="col-md-2">
+                <TableComponent
+                  columns={lookAheadColumns}
+                  data={lookAheadTableData}
+                  label={"2 Weeks Look Ahead"}
+                ></TableComponent>
+              </div>
+              <div className="col-md-4">
+                <TableComponent
+                  columns={projectDataTableColumns}
+                  data={projectDataTableData}
+                  label={"Project Data Table"}
+                ></TableComponent>
+              </div>
+            </>
+          )}
+
           <div className="col-md-6">
             <SimpleAnalyticsChart
               responseData={responseData}
@@ -312,9 +366,9 @@ const Analytics_mod = () => {
             />
           </div>
         </div>
-      </div>     
+      </div>
     </>
   );
-}
+};
 
 export default Analytics_mod;
